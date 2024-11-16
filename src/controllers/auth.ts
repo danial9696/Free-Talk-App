@@ -18,7 +18,7 @@ module.exports = {
     if (userExist) return next(new BadReqError("User already exist!"))
 
     try {
-      const newUser = new User({
+      const newUser = User.build({
         email,
         password,
       })

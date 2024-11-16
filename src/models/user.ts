@@ -1,5 +1,6 @@
 import { authenticationService } from "../../common/src/services/authentication"
 import mongoose from "mongoose"
+import { CreateUserDto, UserDoc, UserModel } from "./types"
 
 const UserSchema = new mongoose.Schema({
   email: {
@@ -29,4 +30,7 @@ UserSchema.pre("save", async function (done) {
   done()
 })
 
-export const User = mongoose.model("User", UserSchema)
+UserSchema.statics.build = (createUserDto: CreateUserDto) =>
+  new User(createUserDto)
+
+export const User = mongoose.model<UserDoc, UserModel>("User", UserSchema)

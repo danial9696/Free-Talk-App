@@ -12,7 +12,7 @@ exports.createNewPost = async (
   if (!title) return next(new BadReqError("Title is required"))
   if (!content) return next(new BadReqError("Content is required"))
 
-  const newPost = new Post({
+  const newPost = Post.build({
     title,
     content,
   })

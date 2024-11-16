@@ -1,6 +1,7 @@
 import mongoose from "mongoose"
+import { CreatePostDto, PostDoc, PostModel } from "./types"
 
-const postSchema = new mongoose.Schema({
+const PostSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -19,6 +20,9 @@ const postSchema = new mongoose.Schema({
   ],
 })
 
-const Post = mongoose.model("Post", postSchema)
+PostSchema.statics.build = (createUserDto: CreatePostDto) =>
+  new Post(createUserDto)
+
+const Post = mongoose.model<PostDoc, PostModel>("Post", PostSchema)
 
 export default Post

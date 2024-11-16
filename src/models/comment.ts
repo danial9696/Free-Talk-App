@@ -1,15 +1,22 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose"
+import { CommentDoc, CommentModel, CreateCommentDto } from "./types"
 
-const commentSchema = new mongoose.Schema({
-    userName: {
-        type: String,
-    },
-    content: {
-        type: String,
-        required: true,
-    },
-});
+const CommentSchema = new mongoose.Schema({
+  userName: {
+    type: String,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+})
 
-const Comment = mongoose.model('Comment', commentSchema);
+CommentSchema.statics.build = (createCommentDto: CreateCommentDto) =>
+  new Comment(createCommentDto)
+
+const Comment = mongoose.model<CommentDoc, CommentModel>(
+  "Comment",
+  CommentSchema
+)
 
 export default Comment

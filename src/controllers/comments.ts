@@ -16,7 +16,7 @@ exports.createComment = async (
 
   if (!postId) return next(new BadReqError("postId is required!"))
 
-  const newComment = new Comment({
+  const newComment = Comment.build({
     userName: userName ?? "anonymous",
     content,
   })
@@ -38,10 +38,7 @@ exports.createComment = async (
 
     res.status(200).json(commentedPost)
   } catch (err: any) {
-    const error = new Error("Comment cannot be created") as CustomError
-    error.status = 401
-    console.error("Create comment unhandled error:", err.message)
-    next(error)
+    next(new Error("Comment cannot be created"))
   }
 }
 
