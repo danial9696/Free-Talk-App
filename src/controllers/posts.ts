@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express"
 import Post from "../models/post"
 import { BadReqError } from "common/src/errors/bad-req-error"
+import { User } from "src/models/user"
 
 exports.createNewPost = async (
   req: Request,
@@ -18,6 +19,17 @@ exports.createNewPost = async (
   })
 
   await newPost.save()
+
+  await User.findByIdAndUpdate(
+    {
+      _id: req.currentUser.userId,
+    },
+    {
+      $push: {
+        posts: newPost._id,
+      },
+    }
+  )
 
   res.status(201).json({
     newPost,
@@ -61,13 +73,29 @@ exports.deletePost = async (
   if (!id) if (!id) return next(new BadReqError("Id is required"))
 
   try {
-    await Post.findByIdAndRemove({
+    const deletedPost = await Post.findByIdAndRemove({
       _id: id,
     })
 
+    await User.findByIdAndUpdate(
+      {
+        _id: req.currentUser._id,
+      },
+      {
+        $pull: { posts: id },
+      },
+      {
+        new: true,
+      }
+    )
+
     res
       .status(201)
-      .json({ success: true, message: "Post deleted successfully" })
+      .json({
+        success: true,
+        message: "Post deleted successfully",
+        data: deletedPost,
+      })
   } catch (err) {
     next(new Error("Post cannot be deleted"))
   }

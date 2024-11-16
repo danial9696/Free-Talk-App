@@ -64,6 +64,9 @@ exports.deleteComment = async (
       },
       {
         $pull: { comments: commentId },
+      },
+      {
+        new: true,
       }
     )
 
