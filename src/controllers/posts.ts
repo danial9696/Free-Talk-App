@@ -47,9 +47,7 @@ exports.updatePost = async (
 
     res.status(201).json({ updatedPost })
   } catch (err) {
-    const error = new Error("Post cannot be updated") as CustomError
-    error.status = 401
-    next(error)
+    next(new Error("Post cannot be updated"))
   }
 }
 
