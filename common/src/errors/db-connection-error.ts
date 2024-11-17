@@ -7,7 +7,7 @@ export class DbConnectionError extends CustomError {
     super("DB Connection error!")
   }
 
-  generateError() {
+  generateErrors() {
     return [{ message: "DB Connection error!" }]
   }
 }

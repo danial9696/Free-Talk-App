@@ -11,11 +11,25 @@ exports.createNewPost = async (
   const { title, content } = req.body
 
   if (!title) return next(new BadReqError("Title is required"))
+
   if (!content) return next(new BadReqError("Content is required"))
+
+  if (!req.files) return next(new BadReqError("Images are required"))
+
+  let images: Array<Express.Multer.File> = []
+
+  if (typeof req.files === "object") {
+    images = Object.values(req.files)
+  }
+
+  if (Array.isArray(req.files)) {
+    images = [...req.files]
+  }
 
   const newPost = Post.build({
     title,
     content,
+    images: [],
   })
 
   await newPost.save()
@@ -89,13 +103,11 @@ exports.deletePost = async (
       }
     )
 
-    res
-      .status(201)
-      .json({
-        success: true,
-        message: "Post deleted successfully",
-        data: deletedPost,
-      })
+    res.status(201).json({
+      success: true,
+      message: "Post deleted successfully",
+      data: deletedPost,
+    })
   } catch (err) {
     next(new Error("Post cannot be deleted"))
   }

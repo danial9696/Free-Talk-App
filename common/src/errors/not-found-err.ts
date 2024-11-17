@@ -7,7 +7,7 @@ export class NotFoundError extends CustomError {
     super("Not Found!")
   }
 
-  generateError() {
+  generateErrors() {
     return [{ message: "Not Found!" }]
   }
 }

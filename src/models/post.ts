@@ -12,6 +12,13 @@ const PostSchema = new mongoose.Schema({
     required: true,
   },
 
+  images: {
+    src: {
+      type: String,
+      required: true,
+    },
+  },
+
   comments: [
     {
       type: mongoose.Schema.Types.ObjectId,

@@ -22,12 +22,14 @@ export interface UserModel extends mongoose.Model<UserDoc> {
 export interface PostDoc extends mongoose.Document {
   title: string
   content: string
+  images: { src: File }[]
   comments?: CommentDoc[]
 }
 
 export interface CreatePostDto {
   title: string
   content: string
+  images: { src: File }[]
   comments?: CommentDoc[]
 }
 

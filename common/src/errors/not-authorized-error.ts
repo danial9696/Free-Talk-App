@@ -7,7 +7,7 @@ export class NotAuthorizedError extends CustomError {
     super("Not Authorized!")
   }
 
-  generateError() {
+  generateErrors() {
     return [{ message: "Not Authorized!" }]
   }
 }

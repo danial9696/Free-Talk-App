@@ -7,7 +7,7 @@ export class BadReqError extends CustomError {
     super(msg)
   }
 
-  generateError() {
+  generateErrors() {
     return [{ message: this.msg }]
   }
 }
